@@ -147,6 +147,21 @@
       color: var(--muted);
     }
 
+    /* Background rows */
+    #background h3 { font-size: 1.2rem; margin: 28px 0 4px; }
+    .rows { list-style: none; margin: 0; padding: 0; max-width: none; }
+    .rows li {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 4px 16px;
+      margin: 0;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .rows .when { color: var(--muted); white-space: nowrap; }
+    .rows .detail { display: block; color: var(--muted); font-size: 0.95rem; }
+
     .button {
       display: inline-block;
       margin-top: 4px;
@@ -158,6 +173,14 @@
       text-decoration: none;
     }
     .button:hover { background: var(--ink); color: #fff; }
+
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; }
+    .button.secondary {
+      background: transparent;
+      color: var(--accent);
+      box-shadow: inset 0 0 0 2px var(--accent);
+    }
+    .button.secondary:hover { background: var(--accent); color: #fff; }
 
     footer {
       padding: 32px 0 48px;
@@ -185,6 +208,7 @@
       <nav aria-label="Main">
         <a href="#about">About</a>
         <a href="#projects">Projects</a>
+        <a href="#background">Background</a>
         <a href="#contact">Contact</a>
       </nav>
     </header>
@@ -202,8 +226,8 @@
 
     <section id="about">
       <h2>About</h2>
-      <p>I am graduating with a Diploma in Electronic &amp; Computer Engineering student at Ngee Ann Polytechnic, with a focus on embedded systems, software development and IoT.</p>
-      <p>I enjoy applying what I learn to hands-on engineering projects. My experience includes C, C#, Python, m=Microcontrollers, Sensors and Cloud-connected Systems.</p>
+      <p>I am graduating in 2027 with a Diploma in Electronic &amp; Computer Engineering from Ngee Ann Polytechnic, with a focus on embedded systems, software development and IoT.</p>
+      <p>I enjoy applying what I learn to hands-on engineering projects. My experience includes C, C#, Python, Microcontrollers, Sensors and Cloud-connected Systems.</p>
       <p>Outside my studies, I am actively involved in Ten-Pin Bowling and the SOE Peer Helpers Club, which have strengthened my teamwork, communication and leadership skills. I also volunteer and advocate for the welfare of cats.</p>
       <p class="skills"><strong>Tools and languages:</strong> C, C#, Python, Microcontrollers, Sensors, Node-RED, Ubuntu</p>
     </section>
@@ -253,10 +277,46 @@
       </article>
     </section>
 
+        <section id="background">
+      <h2>Education and achievements</h2>
+
+      <h3>Education</h3>
+      <ul class="rows">
+        <li>
+          <span>Ngee Ann Polytechnic, Diploma in Electronic &amp; Computer Engineering
+            <span class="detail">Diploma Plus Programme in Advanced Engineering Math. Minor in Applied Psychology.</span>
+          </span>
+          <span class="when">Apr 2024 to Mar 2027</span>
+        </li>
+      </ul>
+
+      <h3>Leadership</h3>
+      <ul class="rows">
+        <li><span>Publicity Head, Ten-Pin Bowling</span><span class="when">2026 to 2027</span></li>
+        <li><span>Publicity Head, SOE Peer Helpers</span><span class="when">2025 to 2026</span></li>
+        <li><span>Makers Subcommittee Member, Makers Guild</span><span class="when">2025 to 2026</span></li>
+      </ul>
+
+      <h3>Awards</h3>
+      <ul class="rows">
+        <li>
+          <span>Edusave Merit Bursary
+            <span class="detail">Top 25% of the level and course in academic performance.</span>
+          </span>
+          <span class="when">Oct 2025</span>
+        </li>
+        <li><span>Director's List</span><span class="when">Feb 2025</span></li>
+        <li><span>Special Commendation Sports Team Award</span></li>
+      </ul>
+    </section>
+
     <section id="contact">
       <h2>Contact</h2>
-      <p>You can reach me by email down below! </p>
-      <a class="button" href="mailto:xuantngg@gmail.com">Email xuantngg@gmail.com</a>
+      <p>You can reach me by email down below!</p>
+      <div class="actions">
+        <a class="button" href="mailto:xuantngg@gmail.com">Email xuantngg@gmail.com</a>
+        <a class="button secondary" href="https://www.linkedin.com/in/zixuan-tng" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
     </section>
 
     <footer>
