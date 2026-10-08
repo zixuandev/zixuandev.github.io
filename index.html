@@ -20,6 +20,7 @@
 
     * { box-sizing: border-box; }
     [hidden] { display: none !important; }
+    html { scroll-behavior: smooth; }
 
     body {
       margin: 0;
@@ -33,72 +34,31 @@
 
     a { color: var(--accent); text-underline-offset: 3px; }
     a:hover { color: var(--ink); }
-    a:focus-visible, .button:focus-visible, .card:focus-visible {
+    a:focus-visible, .button:focus-visible {
       outline: 3px solid var(--accent);
       outline-offset: 3px;
     }
 
     .wrap { max-width: 780px; margin: 0 auto; padding: 0 24px; }
 
-    /* Top bar */
     header.bar {
       display: flex;
-      flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
-      gap: 8px 24px;
       padding: 22px 0;
-      border-bottom: 1px solid var(--line);
+      font-weight: 600;
     }
-    header.bar .brand {
-      font-family: "Bricolage Grotesque", "Trebuchet MS", sans-serif;
-      font-weight: 700;
-      font-size: 1.2rem;
-      color: var(--ink);
-      text-decoration: none;
-    }
-    header.bar nav { display: flex; flex-wrap: wrap; gap: 6px 22px; font-weight: 500; }
-    header.bar nav a { color: var(--ink); text-decoration: none; padding: 2px 0; border-bottom: 2px solid transparent; }
-    header.bar nav a:hover { color: var(--accent); }
-    header.bar nav a[aria-current="page"] { border-bottom-color: var(--accent); color: var(--accent); }
+    header.bar nav { display: flex; gap: 22px; font-weight: 500; }
+    header.bar nav a { color: var(--ink); text-decoration: none; }
+    header.bar nav a:hover { color: var(--accent); text-decoration: underline; }
 
-    /* Views (pages) */
-    .view { display: none; padding: 40px 0 56px; min-height: 60vh; }
-    .view.active { display: block; }
-    .view:focus, .view h1:focus { outline: none; }
-
-    .back {
-      display: inline-block;
-      margin-bottom: 24px;
-      font-weight: 500;
-    }
-
-    h1.page-title, h2.page-title {
-      margin: 0 0 20px;
-      font-family: "Bricolage Grotesque", "Trebuchet MS", sans-serif;
-      font-weight: 700;
-      font-size: 2.2rem;
-      line-height: 1.15;
-      letter-spacing: -0.01em;
-    }
-    h2 {
-      margin: 28px 0 6px;
-      font-family: "Bricolage Grotesque", "Trebuchet MS", sans-serif;
-      font-weight: 700;
-      font-size: 1.3rem;
-    }
-    p { margin: 0 0 16px; max-width: 65ch; }
-    .lead { color: var(--muted); }
-    .skills { color: var(--muted); }
-    .skills strong { color: var(--ink); font-weight: 600; }
-
-    /* Home */
+    /* Hero */
     .hero {
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 32px;
-      padding: 24px 0 40px;
+      padding: 56px 0 56px;
     }
     .hero h1 {
       margin: 0;
@@ -115,7 +75,11 @@
       color: var(--muted);
       line-height: 1.45;
     }
-    .portrait { flex: 0 0 auto; width: 200px; margin: 0; }
+    .portrait {
+      flex: 0 0 auto;
+      width: 200px;
+      margin: 0;
+    }
     .portrait img {
       display: block;
       width: 200px;
@@ -125,32 +89,28 @@
       background: var(--bg-soft);
     }
 
-    /* Menu cards */
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px;
-      margin-top: 8px;
-    }
-    .card {
-      display: block;
-      padding: 20px 22px;
-      border-radius: 14px;
-      background: var(--bg-soft);
-      border: 2px solid transparent;
-      color: var(--ink);
-      text-decoration: none;
-    }
-    .card:hover { border-color: var(--accent); color: var(--ink); }
-    .card-title {
-      display: block;
+    section { padding: 44px 0; border-top: 1px solid var(--line); }
+    h2 {
+      margin: 0 0 20px;
       font-family: "Bricolage Grotesque", "Trebuchet MS", sans-serif;
       font-weight: 700;
-      font-size: 1.25rem;
+      font-size: 1.9rem;
+      letter-spacing: -0.01em;
+    }
+    h3 {
+      margin: 0 0 6px;
+      font-family: "Bricolage Grotesque", "Trebuchet MS", sans-serif;
+      font-weight: 700;
+      font-size: 1.45rem;
       line-height: 1.25;
     }
-    .card-text { display: block; margin-top: 6px; color: var(--muted); font-size: 0.95rem; line-height: 1.5; }
+    p { margin: 0 0 16px; max-width: 65ch; }
+    .skills { color: var(--muted); }
+    .skills strong { color: var(--ink); font-weight: 600; }
 
+    /* Projects */
+    .project { padding: 8px 0 36px; }
+    .project + .project { padding-top: 36px; border-top: 1px solid var(--line); }
     .status {
       display: inline-block;
       margin-bottom: 10px;
@@ -161,9 +121,7 @@
       font-size: 0.9rem;
       font-weight: 600;
     }
-    .card .status { background: var(--bg); margin: 0 0 8px; }
-
-    /* Lists */
+    .summary { color: var(--muted); }
     ul { margin: 14px 0 0; padding-left: 1.2em; max-width: 65ch; }
     li { margin-bottom: 8px; padding-left: 4px; }
     li::marker { color: var(--accent); }
@@ -171,9 +129,9 @@
     /* Project photos */
     .gallery {
       display: grid;
-      grid-template-columns: minmax(0, 480px);
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
       gap: 14px;
-      margin-top: 28px;
+      margin-top: 24px;
     }
     .gallery figure { margin: 0; }
     .gallery img {
@@ -184,17 +142,24 @@
       border-radius: 12px;
       background: var(--bg-soft);
     }
-    .gallery figcaption { margin-top: 6px; font-size: 0.9rem; color: var(--muted); }
+    .gallery { align-items: start; }
+    .gallery.single { grid-template-columns: minmax(0, 480px); }
+    .gallery figcaption {
+      margin-top: 6px;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
 
     /* Background rows */
-    .rows { list-style: none; margin: 8px 0 0; padding: 0; max-width: none; }
+    #background h3 { font-size: 1.2rem; margin: 28px 0 4px; }
+    .rows { list-style: none; margin: 0; padding: 0; max-width: none; }
     .rows li {
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
       gap: 4px 16px;
       margin: 0;
-      padding: 12px 0;
+      padding: 10px 0;
       border-bottom: 1px solid var(--line);
     }
     .rows .when { color: var(--muted); white-space: nowrap; }
@@ -212,314 +177,188 @@
     }
     .button:hover { background: var(--ink); color: #fff; }
 
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; }
+    .button.secondary {
+      background: transparent;
+      color: var(--accent);
+      box-shadow: inset 0 0 0 2px var(--accent);
+    }
+    .button.secondary:hover { background: var(--accent); color: #fff; }
+
     footer {
-      padding: 28px 0 44px;
+      padding: 32px 0 48px;
       border-top: 1px solid var(--line);
       color: var(--muted);
       font-size: 0.95rem;
     }
 
     @media (max-width: 600px) {
-      .hero { flex-direction: column-reverse; align-items: flex-start; padding-top: 8px; gap: 24px; }
+      .hero { flex-direction: column-reverse; align-items: flex-start; padding-top: 32px; gap: 24px; }
       .portrait, .portrait img { width: 140px; }
       .portrait img { height: 140px; }
-      .cards { grid-template-columns: minmax(0, 1fr); }
-      h1.page-title, h2.page-title { font-size: 1.8rem; }
+      header.bar nav { gap: 16px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
     }
   </style>
-  <noscript>
-    <style>
-      .view { display: block; border-bottom: 1px solid var(--line); min-height: 0; }
-    </style>
-  </noscript>
 </head>
 <body>
   <div class="wrap">
     <header class="bar">
-      <a class="brand" href="#/">Zi Xuan</a>
+      <span>Zi Xuan</span>
       <nav aria-label="Main">
-        <a href="#/about" data-nav="about">About</a>
-        <a href="#/projects" data-nav="projects">Projects</a>
-        <a href="#/background" data-nav="background">Background</a>
-        <a href="#/contact" data-nav="contact">Contact</a>
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#background">Background</a>
+        <a href="#contact">Contact</a>
       </nav>
     </header>
 
-    <main>
+    <div class="hero">
+      <div>
+        <h1>Zi Xuan</h1>
+        <p class="role">Electronic &amp; Computer Engineering Student in Ngee Ann Polytechnic.</p>
+      </div>
+      <!-- Your photo: upload it as images/profile.jpg. This hides itself if the file is missing. -->
+      <figure class="portrait">
+        <img src="images/profile.jpg" alt="Photo of Zi Xuan" onerror="this.closest('figure').hidden = true">
+      </figure>
+    </div>
 
-      <!-- HOME -->
-      <section class="view" data-route="home" data-title="Zi Xuan">
-        <div class="hero">
-          <div>
-            <h1>Zi Xuan</h1>
-            <p class="role">Electronic &amp; Computer Engineering Student in Ngee Ann Polytechnic.</p>
-          </div>
-          <!-- Your photo: upload it as images/profile.jpg. This hides itself if the file is missing. -->
-          <figure class="portrait">
-            <img src="images/profile.jpg" alt="Photo of Zi Xuan" onerror="this.closest('figure').hidden = true">
-          </figure>
-        </div>
+    <section id="about">
+      <h2>About</h2>
+      <p>I am graduating in 2027 with a Diploma in Electronic &amp; Computer Engineering from Ngee Ann Polytechnic, with a focus on embedded systems, software development and IoT.</p>
+      <p>I enjoy applying what I learn to hands-on engineering projects. My experience includes C, C#, Python, Microcontrollers, Sensors and Cloud-connected Systems.</p>
+      <p>Outside my studies, I am actively involved in Ten-Pin Bowling and the SOE Peer Helpers Club, which have strengthened my teamwork, communication and leadership skills. I also volunteer and advocate for the welfare of cats.</p>
+      <p class="skills"><strong>Tools and languages:</strong> C, C#, Python, Microcontrollers, Sensors, Node-RED, Ubuntu</p>
+    </section>
 
-        <div class="cards">
-          <a class="card" href="#/about">
-            <span class="card-title">About</span>
-            <span class="card-text">Learn more about what I enjoy!</span>
-          </a>
-          <a class="card" href="#/projects">
-            <span class="card-title">Projects</span>
-            <span class="card-text">IoT, Robotics, Digital Logic and C Programming</span>
-          </a>
-          <a class="card" href="#/background">
-            <span class="card-title">Background</span>
-            <span class="card-text">Education, Leadership, Awards and Volunteering</span>
-          </a>
-          <a class="card" href="#/contact">
-            <span class="card-title">Contact</span>
-            <span class="card-text">Find me on LinkedIn</span>
-          </a>
-        </div>
-      </section>
+    <section id="projects">
+      <h2>Projects</h2>
 
-      <!-- ABOUT -->
-      <section class="view" data-route="about" data-title="About">
-        <h1 class="page-title" tabindex="-1">About</h1>
-        <p>I am graduating in 2027 with a Diploma in Electronic &amp; Computer Engineering from Ngee Ann Polytechnic, with a focus on embedded systems, software development and IoT.</p>
-        <p>I enjoy applying what I learn to hands-on engineering projects. My experience includes C, C#, Python, Microcontrollers, Sensors and Cloud-connected Systems.</p>
-        <p>Outside my studies, I am actively involved in Ten-Pin Bowling and the SOE Peer Helpers Club, which have strengthened my teamwork, communication and leadership skills. I also volunteer and advocate for the welfare of cats.</p>
-        <p class="skills"><strong>Tools and languages:</strong> C, C#, Python, Microcontrollers, Sensors, Node-RED, Ubuntu</p>
-      </section>
-
-      <!-- PROJECTS (list) -->
-      <section class="view" data-route="projects" data-title="Projects">
-        <h1 class="page-title" tabindex="-1">Projects</h1>
-        <div class="cards">
-          <a class="card" href="#/projects/farm">
-            <span class="status">In progress</span>
-            <span class="card-title">Mini Urban Farming Project</span>
-            <span class="card-text">A Node-RED control dashboard and a Python app that monitors plant leaves.</span>
-          </a>
-          <a class="card" href="#/projects/navigation">
-            <span class="card-title">Autonomous Navigation in Unknown Factory Environments</span>
-            <span class="card-text">A TurtleBot navigating a simulated factory with ROS 2.</span>
-          </a>
-          <a class="card" href="#/projects/binary-race">
-            <span class="card-title">Binary Race</span>
-            <span class="card-text">A two-player binary conversion game built from logic ICs.</span>
-          </a>
-          <a class="card" href="#/projects/geometry-calculator">
-            <span class="card-title">Geometry Calculator</span>
-            <span class="card-text">A menu-driven C program for area and perimeter.</span>
-          </a>
-        </div>
-      </section>
-
-      <!-- PROJECT: FARM -->
-      <section class="view" data-route="projects/farm" data-title="Mini Urban Farming Project">
-        <a class="back" href="#/projects">Back to Projects</a>
-        <div><span class="status">In progress</span></div>
-        <h1 class="page-title" tabindex="-1">Mini Urban Farming Project</h1>
-        <p class="lead">An indoor farming system that combines a Node-RED control dashboard with a Python computer vision application for monitoring plant leaves. I am currently debugging and improving both the control and vision components.</p>
+      <article class="project">
+        <span class="status">In progress</span>
+        <h3>Mini Urban Farming Project</h3>
+        <p class="summary">An indoor farming system that combines a Node-RED control dashboard with a Python computer vision application for monitoring plant leaves. I am currently debugging and improving both the control and vision components.</p>
         <ul>
           <li>Resolved Node-RED control faults such as intermittent water pump and leak sensor through debugging.</li>
           <li>Developing an improved plant leaf detection model, with a calibration system for colour masking, white balancing and HSV tuning.</li>
         </ul>
-        <div class="gallery">
+        <div class="gallery single">
           <figure>
             <img src="images/NodeREDPlantHealth.jpg" alt="Plant Health Camera page showing leaf detection and HSV sliders" onerror="this.closest('figure').hidden = true">
             <figcaption>Plant Health Camera with Leaf Detection and HSV Calibration</figcaption>
           </figure>
         </div>
-      </section>
+      </article>
 
-      <!-- PROJECT: NAVIGATION -->
-      <section class="view" data-route="projects/navigation" data-title="Autonomous Navigation">
-        <a class="back" href="#/projects">Back to Projects</a>
-        <h1 class="page-title" tabindex="-1">Autonomous Navigation in Unknown Factory Environments</h1>
-        <p class="lead">An autonomous navigation system for a simulated factory environment, developed with ROS 2 and a TurtleBot.</p>
+      <article class="project">
+        <h3>Autonomous Navigation in Unknown Factory Environments</h3>
+        <p class="summary">An autonomous navigation system for a simulated factory environment, developed with ROS 2 and a TurtleBot.</p>
         <ul>
           <li>Built a simulated factory in Gazebo and wrote Python code for a TurtleBot to navigate autonomously to specified locations.</li>
           <li>Used Cartographer SLAM for mapping and Nav2 for path planning, adapting to walls and unexpected obstacles, with RViz2 for visualisation and debugging.</li>
         </ul>
-        <div class="gallery">
+        <div class="gallery single">
           <figure>
             <img src="images/AutonomousNavigation.jpg" alt="Top-down view of the simulated factory in Gazebo with the TurtleBot's laser scan" onerror="this.closest('figure').hidden = true">
             <figcaption>The Simulated Factory in Gazebo</figcaption>
           </figure>
         </div>
-      </section>
+      </article>
 
-      <!-- PROJECT: BINARY RACE -->
-      <section class="view" data-route="projects/binary-race" data-title="Binary Race">
-        <a class="back" href="#/projects">Back to Projects</a>
-        <h1 class="page-title" tabindex="-1">Binary Race</h1>
-        <p class="lead">A two-player digital logic game where players race to enter the binary equivalent of a decimal number shown on a 7-segment display. The first correct answer scores a point, and scores reset after five rounds.</p>
+      <article class="project">
+        <h3>Binary Race</h3>
+        <p class="summary">A two-player digital logic game where players race to enter the binary equivalent of a decimal number shown on a 7-segment display. The first correct answer scores a point, and scores reset after five rounds.</p>
         <ul>
           <li>Built with 74HC series logic ICs (counter, comparator, adder and priority encoder), with the circuit drawn in TINA and wired on breadboards as a team.</li>
           <li>I designed the Masterset, which covers the decimal controller and load conditions, and helped troubleshoot wiring and faulty components.</li>
         </ul>
-        <div class="gallery">
+        <div class="gallery single">
           <figure>
             <img src="images/BinaryRace.jpg" alt="Binary Race circuit built on three breadboards" onerror="this.closest('figure').hidden = true">
             <figcaption>The Binary Race Circuit</figcaption>
           </figure>
         </div>
-      </section>
+      </article>
 
-      <!-- PROJECT: GEOMETRY CALCULATOR -->
-      <section class="view" data-route="projects/geometry-calculator" data-title="Geometry Calculator">
-        <a class="back" href="#/projects">Back to Projects</a>
-        <h1 class="page-title" tabindex="-1">Geometry Calculator</h1>
-        <p class="lead">A menu-driven command-line program in C that calculates the area and perimeter of common 2D shapes.</p>
+      <article class="project">
+        <h3>Geometry Calculator</h3>
+        <p class="summary">A menu-driven command-line program in C that calculates the area and perimeter of common 2D shapes.</p>
         <ul>
-          <li>Built a looping menu that lets the user choose between a square, circle, rectangle, triangle or trapezium, then calculate either area or perimeter, repeating until they quit.</li>
-          <li>Added input validation that re-prompts on negative values, and used helper functions for the menu and invalid-input handling.</li>
+          <li>Built a looping menu that lets the user choose between a square, circle, rectangle, triangle or trapezium, then calculate either area or perimeter, repeating until they quit.
+</li>
+          <li>Added input validation to re-prompt on negative values, used helper functions for the menu and invalid-input handling.</li>
         </ul>
-        <div class="gallery">
+        <div class="gallery single">
           <figure>
             <img src="images/GeometryCalculator.jpg" alt="Sample of the Geometry Calculator Command Line Prompt" onerror="this.closest('figure').hidden = true">
             <figcaption>The Geometry Calculator</figcaption>
           </figure>
         </div>
-      </section>
+      </article>
+    </section>
 
-      <!-- BACKGROUND (list) -->
-      <section class="view" data-route="background" data-title="Background">
-        <h1 class="page-title" tabindex="-1">Education and Achievements</h1>
-        <div class="cards">
-          <a class="card" href="#/background/education">
-            <span class="card-title">Education</span>
-            <span class="card-text">Ngee Ann Polytechnic, 2024 to 2027</span>
-          </a>
-          <a class="card" href="#/background/leadership">
-            <span class="card-title">Leadership</span>
-            <span class="card-text">Publicity Head and Makers Subcommittee roles</span>
-          </a>
-          <a class="card" href="#/background/awards">
-            <span class="card-title">Awards</span>
-            <span class="card-text">Edusave Merit Bursary, Director's List and more</span>
-          </a>
-          <a class="card" href="#/background/volunteering">
-            <span class="card-title">Volunteering</span>
-            <span class="card-text">Cat rescue and fostering, mathematics tutoring</span>
-          </a>
-        </div>
-      </section>
+    <section id="background">
+      <h2>Education and Achievements</h2>
 
-      <section class="view" data-route="background/education" data-title="Education">
-        <a class="back" href="#/background">Back to Education and Achievements</a>
-        <h1 class="page-title" tabindex="-1">Education</h1>
-        <ul class="rows">
-          <li>
-            <span>Ngee Ann Polytechnic, Diploma in Electronic &amp; Computer Engineering
-              <span class="detail">Diploma Plus Programme in Advanced Engineering Math. Minor in Applied Psychology.</span>
-            </span>
-            <span class="when">Apr 2024 to Mar 2027</span>
-          </li>
-        </ul>
-      </section>
+      <h3>Education</h3>
+      <ul class="rows">
+        <li>
+          <span>Ngee Ann Polytechnic, Diploma in Electronic &amp; Computer Engineering
+            <span class="detail">Diploma Plus Programme in Advanced Engineering Math. Minor in Applied Psychology.</span>
+          </span>
+          <span class="when">Apr 2024 to Mar 2027</span>
+        </li>
+      </ul>
 
-      <section class="view" data-route="background/leadership" data-title="Leadership">
-        <a class="back" href="#/background">Back to Education and Achievements</a>
-        <h1 class="page-title" tabindex="-1">Leadership</h1>
-        <ul class="rows">
-          <li><span>Publicity Head, Ten-Pin Bowling</span><span class="when">2026 to 2027</span></li>
-          <li><span>Publicity Head, SOE Peer Helpers</span><span class="when">2025 to 2026</span></li>
-          <li><span>Makers Subcommittee Member, Makers Guild</span><span class="when">2025 to 2026</span></li>
-        </ul>
-      </section>
+      <h3>Leadership</h3>
+      <ul class="rows">
+        <li><span>Publicity Head, Ten-Pin Bowling</span><span class="when">2026 to 2027</span></li>
+        <li><span>Publicity Head, SOE Peer Helpers</span><span class="when">2025 to 2026</span></li>
+        <li><span>Makers Subcommittee Member, Makers Guild</span><span class="when">2025 to 2026</span></li>
+      </ul>
 
-      <section class="view" data-route="background/awards" data-title="Awards">
-        <a class="back" href="#/background">Back to Education and Achievements</a>
-        <h1 class="page-title" tabindex="-1">Awards</h1>
-        <ul class="rows">
-          <li>
-            <span>Edusave Merit Bursary
-              <span class="detail">Top 25% of the level and course in academic performance.</span>
-            </span>
-            <span class="when">Oct 2025</span>
-          </li>
-          <li><span>Director's List</span><span class="when">Feb 2025</span></li>
-          <li><span>Special Commendation Sports Team Award</span><span class="when">Jun 2025</span></li>
-        </ul>
-      </section>
+      <h3>Awards</h3>
+      <ul class="rows">
+        <li>
+          <span>Edusave Merit Bursary
+            <span class="detail">Top 25% of the level and course in academic performance.</span>
+          </span>
+          <span class="when">Oct 2025</span>
+        </li>
+        <li><span>Director's List</span><span class="when">Feb 2025</span></li>
+        <li><span>Special Commendation Sports Team Award</span><span class="when">Jun 2025</span></li>
+      </ul>
 
-      <section class="view" data-route="background/volunteering" data-title="Volunteering">
-        <a class="back" href="#/background">Back to Education and Achievements</a>
-        <h1 class="page-title" tabindex="-1">Volunteering</h1>
-        <ul class="rows">
-          <li>
-            <span>Feline Rescue, Foster and Feeder
-              <span class="detail">I feed community cats, help reunite lost cats with their owners, and foster cats until they find homes. Most recently I fostered an abandoned pregnant cat who gave birth to four kittens. The mother has been adopted and two kittens are awaiting adoption.</span>
-            </span>
-            <span class="when">May 2024 to present</span>
-          </li>
-          <li>
-            <span>Mathematics Tutor, Bukit Batok Youth Network
-              <span class="detail">Delivered math tutoring sessions and designed structured lesson plans.</span>
-              <span class="detail">Jun 2024 to Dec 2025</span>
-            </span>
-          </li>
-        </ul>
-      </section>
+      <h3>Volunteering</h3>
+      <ul class="rows">
+        <li>
+          <span>Feline Rescue, Foster and Feeder
+            <span class="detail">I feed community cats, help reunite lost cats with their owners, and foster cats until they find homes. Most recently I fostered an abandoned pregnant cat who gave birth to four kittens. The mother has been adopted and two kittens are awaiting adoption.</span>
+          </span>
+          <span class="when">May 2024 to present</span>
+        </li>
+        <li>
+          <span>Mathematics Tutor, Bukit Batok Youth Network
+            <span class="detail">Delivered math tutoring sessions and designed structured lesson plans.</span>
+            <span class="detail">Jun 2024 to Dec 2025</span>
+          </span>
+        </li>
+      </ul>
+    </section>
 
-      <!-- CONTACT -->
-      <section class="view" data-route="contact" data-title="Contact">
-        <h1 class="page-title" tabindex="-1">Contact</h1>
-        <p>You can find me on LinkedIn!</p>
-        <a class="button" href="https://www.linkedin.com/in/zixuan-tng" target="_blank" rel="noopener">Connect on LinkedIn</a>
-      </section>
-
-    </main>
+    <section id="contact">
+      <h2>Contact</h2>
+      <p>You can find me on LinkedIn!</p>
+      <a class="button" href="https://www.linkedin.com/in/zixuan-tng" target="_blank" rel="noopener">Connect on LinkedIn</a>
+    </section>
 
     <footer>
       <span>Zi Xuan, Ngee Ann Polytechnic</span>
     </footer>
   </div>
-
-  <script>
-    (function () {
-      var views = document.querySelectorAll('.view');
-      var navLinks = document.querySelectorAll('header nav a');
-
-      function currentPath() {
-        // Supports #/projects/farm, #projects/farm and the old #projects style links
-        var p = (location.hash || '').replace(/^#\/?/, '').replace(/\/+$/, '');
-        return p || 'home';
-      }
-
-      function route() {
-        var path = currentPath();
-        var target = null;
-        views.forEach(function (v) {
-          if (v.getAttribute('data-route') === path) target = v;
-        });
-        if (!target) {
-          path = 'home';
-          target = document.querySelector('.view[data-route="home"]');
-        }
-
-        views.forEach(function (v) { v.classList.toggle('active', v === target); });
-
-        var top = path.split('/')[0];
-        navLinks.forEach(function (a) {
-          if (a.getAttribute('data-nav') === top) a.setAttribute('aria-current', 'page');
-          else a.removeAttribute('aria-current');
-        });
-
-        var title = target.getAttribute('data-title');
-        document.title = path === 'home' ? 'Zi Xuan | Portfolio' : title + ' | Zi Xuan';
-
-        window.scrollTo(0, 0);
-        var heading = target.querySelector('h1');
-        if (heading && path !== 'home') {
-          heading.setAttribute('tabindex', '-1');
-          heading.focus({ preventScroll: true });
-        }
-      }
-
-      window.addEventListener('hashchange', route);
-      route();
-    })();
-  </script>
 </body>
 </html>
