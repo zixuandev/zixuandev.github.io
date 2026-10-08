@@ -7,15 +7,18 @@
   <meta name="description" content="Zi Xuan, Electronic & Computer Engineering student at Ngee Ann Polytechnic. Embedded systems, software development and IoT.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@500;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #e4f2df;
-      --bg-soft: #d3ebcd;
-      --ink: #1f3a2b;
-      --muted: #4b6a58;
-      --accent: #2e6b4c;
-      --line: rgba(31, 58, 43, 0.18);
+      --bg: #1e1b3f;
+      --panel: #2c2860;
+      --panel-2: #3a3580;
+      --ink: #f3efff;
+      --muted: #c3bdf0;
+      --moon: #ffd166;
+      --fish: #ff8fab;
+      --mint: #7ee0b5;
+      --edge: #0f0d26;
     }
 
     * { box-sizing: border-box; }
@@ -24,33 +27,50 @@
 
     body {
       margin: 0;
-      background: var(--bg);
       color: var(--ink);
-      font-family: "Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+      font-family: "Nunito", system-ui, -apple-system, "Segoe UI", sans-serif;
       font-size: 1.0625rem;
       line-height: 1.65;
-      -webkit-font-smoothing: antialiased;
+      background-color: var(--bg);
+      background-image:
+        radial-gradient(var(--muted) 1px, transparent 1.5px),
+        radial-gradient(var(--moon) 1px, transparent 1.5px);
+      background-size: 90px 90px, 140px 140px;
+      background-position: 10px 20px, 60px 70px;
+      background-attachment: fixed;
     }
 
-    a { color: var(--accent); text-underline-offset: 3px; }
-    a:hover { color: var(--ink); }
-    a:focus-visible, .button:focus-visible {
-      outline: 3px solid var(--accent);
+    a { color: var(--moon); text-underline-offset: 3px; }
+    a:hover { color: var(--fish); }
+    a:focus-visible, button:focus-visible {
+      outline: 3px solid var(--mint);
       outline-offset: 3px;
     }
 
-    .wrap { max-width: 780px; margin: 0 auto; padding: 0 24px; }
+    .wrap { max-width: 800px; margin: 0 auto; padding: 0 24px 24px; }
 
+    /* HUD */
     header.bar {
       display: flex;
+      flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
-      padding: 22px 0;
-      font-weight: 600;
+      gap: 8px 20px;
+      margin: 20px 0 0;
+      padding: 10px 16px;
+      background: var(--panel);
+      border: 4px solid var(--edge);
+      box-shadow: 6px 6px 0 var(--edge);
+      font-family: "Pixelify Sans", monospace;
+      font-weight: 500;
     }
-    header.bar nav { display: flex; gap: 22px; font-weight: 500; }
+    .hud-name { display: flex; align-items: center; gap: 10px; }
+    .lives { color: var(--fish); letter-spacing: 3px; }
+    header.bar nav { display: flex; flex-wrap: wrap; gap: 6px 18px; }
     header.bar nav a { color: var(--ink); text-decoration: none; }
-    header.bar nav a:hover { color: var(--accent); text-decoration: underline; }
+    header.bar nav a::before { content: "> "; color: var(--moon); visibility: hidden; }
+    header.bar nav a:hover::before { visibility: visible; }
+    header.bar nav a:hover { color: var(--moon); }
 
     /* Hero */
     .hero {
@@ -58,80 +78,125 @@
       align-items: center;
       justify-content: space-between;
       gap: 32px;
-      padding: 56px 0 56px;
+      padding: 48px 0;
     }
     .hero h1 {
       margin: 0;
-      font-family: "Bricolage Grotesque", "Trebuchet MS", sans-serif;
-      font-weight: 800;
-      font-size: clamp(3.2rem, 12vw, 6rem);
-      line-height: 0.95;
-      letter-spacing: -0.03em;
+      font-family: "Pixelify Sans", monospace;
+      font-weight: 700;
+      font-size: clamp(3rem, 12vw, 5.5rem);
+      line-height: 1;
+      text-shadow: 4px 4px 0 var(--edge);
     }
     .hero p.role {
-      margin: 20px 0 0;
-      max-width: 28ch;
-      font-size: 1.25rem;
+      margin: 18px 0 20px;
+      max-width: 30ch;
+      font-size: 1.2rem;
       color: var(--muted);
       line-height: 1.45;
     }
-    .portrait {
-      flex: 0 0 auto;
-      width: 200px;
-      margin: 0;
-    }
+    .portrait { flex: 0 0 auto; margin: 0; }
     .portrait img {
       display: block;
-      width: 200px;
-      height: 200px;
+      width: 180px;
+      height: 180px;
       object-fit: cover;
-      border-radius: 50%;
-      background: var(--bg-soft);
+      border: 4px solid var(--edge);
+      box-shadow: 6px 6px 0 var(--moon);
+      background: var(--panel);
     }
 
-    section { padding: 44px 0; border-top: 1px solid var(--line); }
+    /* Pet the cat */
+    .cat-stage { display: flex; align-items: flex-end; gap: 14px; }
+    .cat-btn {
+      background: none;
+      border: 0;
+      padding: 0;
+      cursor: pointer;
+      line-height: 0;
+    }
+    .cat { width: 112px; height: 112px; shape-rendering: crispEdges; image-rendering: pixelated; }
+    .cat .eye { transform-box: fill-box; transform-origin: center; animation: blink 5s infinite; }
+    .cat .tail { transform-box: fill-box; transform-origin: bottom left; animation: wag 2.4s ease-in-out infinite; }
+    .cat-btn:active .cat { transform: translateY(3px); }
+    @keyframes blink { 0%, 94%, 100% { transform: scaleY(1); } 97% { transform: scaleY(0.1); } }
+    @keyframes wag { 0%, 100% { transform: rotate(0); } 50% { transform: rotate(-12deg); } }
+
+    .cat-hud { font-family: "Pixelify Sans", monospace; line-height: 1.4; }
+    .bubble {
+      min-height: 2.4em;
+      margin: 0 0 6px;
+      padding: 4px 10px;
+      background: var(--ink);
+      color: var(--edge);
+      border: 3px solid var(--edge);
+      font-size: 1rem;
+      max-width: none;
+    }
+    .fish { color: var(--moon); }
+
+    /* Levels */
+    section { padding: 28px; margin-top: 32px; background: var(--panel); border: 4px solid var(--edge); box-shadow: 8px 8px 0 var(--edge); }
     h2 {
       margin: 0 0 20px;
-      font-family: "Bricolage Grotesque", "Trebuchet MS", sans-serif;
+      font-family: "Pixelify Sans", monospace;
       font-weight: 700;
       font-size: 1.9rem;
-      letter-spacing: -0.01em;
+      line-height: 1.2;
+    }
+    h2 .lv {
+      display: inline-block;
+      margin-right: 10px;
+      padding: 0 10px;
+      background: var(--moon);
+      color: var(--edge);
+      font-size: 1rem;
+      vertical-align: middle;
     }
     h3 {
       margin: 0 0 6px;
-      font-family: "Bricolage Grotesque", "Trebuchet MS", sans-serif;
+      font-family: "Pixelify Sans", monospace;
       font-weight: 700;
       font-size: 1.45rem;
       line-height: 1.25;
     }
     p { margin: 0 0 16px; max-width: 65ch; }
-    .skills { color: var(--muted); }
-    .skills strong { color: var(--ink); font-weight: 600; }
 
-    /* Projects */
-    .project { padding: 8px 0 36px; }
-    .project + .project { padding-top: 36px; border-top: 1px solid var(--line); }
+    .inventory { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 0; padding: 0; list-style: none; max-width: none; }
+    .inventory li {
+      margin: 0;
+      padding: 2px 12px;
+      background: var(--panel-2);
+      border: 3px solid var(--edge);
+      font-family: "Pixelify Sans", monospace;
+    }
+    .inventory-label { margin: 22px 0 0; font-family: "Pixelify Sans", monospace; color: var(--mint); }
+
+    /* Quests */
+    .project { margin-top: 24px; padding: 20px; background: var(--bg); border: 4px solid var(--edge); }
+    .project:first-of-type { margin-top: 0; }
     .status {
       display: inline-block;
       margin-bottom: 10px;
-      padding: 2px 12px;
-      border-radius: 999px;
-      background: var(--bg-soft);
-      color: var(--ink);
-      font-size: 0.9rem;
-      font-weight: 600;
+      padding: 0 12px;
+      background: var(--mint);
+      color: var(--edge);
+      font-family: "Pixelify Sans", monospace;
+      font-weight: 700;
+      font-size: 0.95rem;
     }
+    .status.live { background: var(--fish); }
     .summary { color: var(--muted); }
     ul { margin: 14px 0 0; padding-left: 1.2em; max-width: 65ch; }
     li { margin-bottom: 8px; padding-left: 4px; }
-    li::marker { color: var(--accent); }
+    li::marker { color: var(--fish); }
 
-    /* Project photos */
     .gallery {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
       gap: 14px;
       margin-top: 24px;
+      align-items: start;
     }
     .gallery figure { margin: 0; }
     .gallery img {
@@ -139,19 +204,15 @@
       width: auto;
       max-width: 100%;
       height: auto;
-      border-radius: 12px;
-      background: var(--bg-soft);
+      border: 4px solid var(--edge);
+      background: var(--panel);
     }
-    .gallery { align-items: start; }
     .gallery.single { grid-template-columns: minmax(0, 480px); }
-    .gallery figcaption {
-      margin-top: 6px;
-      font-size: 0.9rem;
-      color: var(--muted);
-    }
+    .gallery figcaption { margin-top: 6px; font-size: 0.9rem; color: var(--muted); }
 
     /* Background rows */
-    #background h3 { font-size: 1.2rem; margin: 28px 0 4px; }
+    #background h3 { font-size: 1.25rem; margin: 28px 0 8px; color: var(--moon); }
+    #background h3:first-of-type { margin-top: 0; }
     .rows { list-style: none; margin: 0; padding: 0; max-width: none; }
     .rows li {
       display: flex;
@@ -160,54 +221,51 @@
       gap: 4px 16px;
       margin: 0;
       padding: 10px 0;
-      border-bottom: 1px solid var(--line);
+      border-bottom: 2px dashed rgba(195, 189, 240, 0.35);
     }
-    .rows .when { color: var(--muted); white-space: nowrap; }
+    .rows .when { color: var(--mint); white-space: nowrap; font-family: "Pixelify Sans", monospace; }
     .rows .detail { display: block; color: var(--muted); font-size: 0.95rem; }
 
     .button {
       display: inline-block;
       margin-top: 4px;
-      padding: 12px 24px;
-      border-radius: 10px;
-      background: var(--accent);
-      color: #fff;
-      font-weight: 600;
+      padding: 10px 22px;
+      background: var(--moon);
+      color: var(--edge);
+      border: 4px solid var(--edge);
+      box-shadow: 5px 5px 0 var(--edge);
+      font-family: "Pixelify Sans", monospace;
+      font-weight: 700;
+      font-size: 1.1rem;
       text-decoration: none;
     }
-    .button:hover { background: var(--ink); color: #fff; }
-
-    .actions { display: flex; flex-wrap: wrap; gap: 12px; }
-    .button.secondary {
-      background: transparent;
-      color: var(--accent);
-      box-shadow: inset 0 0 0 2px var(--accent);
-    }
-    .button.secondary:hover { background: var(--accent); color: #fff; }
+    .button:hover { background: var(--fish); color: var(--edge); }
+    .button:active { transform: translate(3px, 3px); box-shadow: 2px 2px 0 var(--edge); }
 
     footer {
-      padding: 32px 0 48px;
-      border-top: 1px solid var(--line);
+      padding: 32px 0 24px;
+      text-align: center;
       color: var(--muted);
-      font-size: 0.95rem;
+      font-family: "Pixelify Sans", monospace;
     }
 
     @media (max-width: 600px) {
-      .hero { flex-direction: column-reverse; align-items: flex-start; padding-top: 32px; gap: 24px; }
-      .portrait, .portrait img { width: 140px; }
-      .portrait img { height: 140px; }
-      header.bar nav { gap: 16px; }
+      .hero { flex-direction: column-reverse; align-items: flex-start; padding: 32px 0; gap: 24px; }
+      .portrait img { width: 130px; height: 130px; }
+      section { padding: 20px 16px; }
+      .project { padding: 16px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
+      .cat .eye, .cat .tail { animation: none; }
     }
   </style>
 </head>
 <body>
   <div class="wrap">
     <header class="bar">
-      <span>Zi Xuan</span>
+      <span class="hud-name">Zi Xuan <span class="lives" aria-hidden="true">&hearts;&hearts;&hearts;</span></span>
       <nav aria-label="Main">
         <a href="#about">About</a>
         <a href="#projects">Projects</a>
@@ -220,6 +278,31 @@
       <div>
         <h1>Zi Xuan</h1>
         <p class="role">Electronic &amp; Computer Engineering Student in Ngee Ann Polytechnic.</p>
+
+        <div class="cat-stage">
+          <button class="cat-btn" id="cat" type="button" aria-label="Pet the cat to collect a fish">
+            <svg class="cat" viewBox="0 0 16 16" aria-hidden="true">
+              <g fill="#0f0d26">
+                <rect x="2" y="0" width="3" height="3"/><rect x="11" y="0" width="3" height="3"/>
+                <rect x="2" y="2" width="12" height="8"/><rect x="3" y="10" width="10" height="5"/>
+                <g class="tail"><rect x="13" y="11" width="3" height="4"/><rect x="14" y="8" width="2" height="4"/></g>
+              </g>
+              <g fill="#f4a259">
+                <rect x="3" y="1" width="2" height="2"/><rect x="11" y="1" width="2" height="2"/>
+                <rect x="3" y="3" width="10" height="6"/><rect x="4" y="10" width="8" height="4"/>
+                <rect x="14" y="12" width="1" height="2"/><rect x="15" y="9" width="1" height="3"/>
+              </g>
+              <g fill="#c9722e"><rect x="7" y="3" width="2" height="1"/><rect x="5" y="3" width="1" height="1"/><rect x="10" y="3" width="1" height="1"/></g>
+              <g fill="#fff3e0"><rect x="4" y="14" width="3" height="1"/><rect x="9" y="14" width="3" height="1"/></g>
+              <g fill="#0f0d26" class="eyes"><rect class="eye" x="5" y="5" width="2" height="2"/><rect class="eye" x="9" y="5" width="2" height="2"/></g>
+              <rect x="7" y="7" width="2" height="1" fill="#ff8fab"/>
+            </svg>
+          </button>
+          <div class="cat-hud">
+            <p class="bubble" id="bubble" aria-live="polite">Pet me!</p>
+            <span class="fish">Fish: <span id="fish">0</span></span>
+          </div>
+        </div>
       </div>
       <!-- Your photo: upload it as images/profile.jpg. This hides itself if the file is missing. -->
       <figure class="portrait">
@@ -228,18 +311,21 @@
     </div>
 
     <section id="about">
-      <h2>About</h2>
+      <h2><span class="lv">LV 1</span>About</h2>
       <p>I am graduating in 2027 with a Diploma in Electronic &amp; Computer Engineering from Ngee Ann Polytechnic, with a focus on embedded systems, software development and IoT.</p>
       <p>I enjoy applying what I learn to hands-on engineering projects. My experience includes C, C#, Python, Microcontrollers, Sensors and Cloud-connected Systems.</p>
       <p>Outside my studies, I am actively involved in Ten-Pin Bowling and the SOE Peer Helpers Club, which have strengthened my teamwork, communication and leadership skills. I also volunteer and advocate for the welfare of cats.</p>
-      <p class="skills"><strong>Tools and languages:</strong> C, C#, Python, Microcontrollers, Sensors, Node-RED, Ubuntu</p>
+      <p class="inventory-label">Tools and languages</p>
+      <ul class="inventory">
+        <li>C</li><li>C#</li><li>Python</li><li>ASP.NET Core Razor Pages</li><li>Microcontrollers</li><li>Sensors</li><li>Node-RED</li><li>Ubuntu</li>
+      </ul>
     </section>
 
     <section id="projects">
-      <h2>Projects</h2>
+      <h2><span class="lv">LV 2</span>Projects</h2>
 
       <article class="project">
-        <span class="status">In progress</span>
+        <span class="status live">In progress</span>
         <h3>Mini Urban Farming Project</h3>
         <p class="summary">An indoor farming system that combines a Node-RED control dashboard with a Python computer vision application for monitoring plant leaves. I am currently debugging and improving both the control and vision components.</p>
         <ul>
@@ -284,12 +370,12 @@
         </div>
       </article>
 
-            <article class="project">
+      <article class="project">
         <h3>Electronics Shop Web App</h3>
         <p class="summary">A web ordering page for an electronics shop, built with ASP.NET Core Razor Pages and C#. Customers pick a product, choose optional extras and book a collection time.</p>
         <ul>
           <li>Built an order form with a time-based greeting, a price table for the mouse, keyboard and headset, and radio buttons with product images for selecting an item.</li>
-          <li>Added optional extra options (Mouse Pad, Warranty and Gift Wrapping), a required feedback field and a collection date/time picker.</li>
+          <li>Added optional extras (mouse pad, one year warranty and gift wrapping), a required "How Did You Hear About Us?" field and a collection date/time picker.</li>
         </ul>
         <div class="gallery single">
           <figure>
@@ -298,13 +384,12 @@
           </figure>
         </div>
       </article>
-      
+
       <article class="project">
         <h3>Geometry Calculator</h3>
         <p class="summary">A menu-driven command-line program in C that calculates the area and perimeter of common 2D shapes.</p>
         <ul>
-          <li>Built a looping menu that lets the user choose between a square, circle, rectangle, triangle or trapezium, then calculate either area or perimeter, repeating until they quit.
-</li>
+          <li>Built a looping menu that lets the user choose between a square, circle, rectangle, triangle or trapezium, then calculate either area or perimeter, repeating until they quit.</li>
           <li>Added input validation to re-prompt on negative values, used helper functions for the menu and invalid-input handling.</li>
         </ul>
         <div class="gallery single">
@@ -317,7 +402,7 @@
     </section>
 
     <section id="background">
-      <h2>Education and Achievements</h2>
+      <h2><span class="lv">LV 3</span>Education and Achievements</h2>
 
       <h3>Education</h3>
       <ul class="rows">
@@ -366,7 +451,7 @@
     </section>
 
     <section id="contact">
-      <h2>Contact</h2>
+      <h2><span class="lv">LV 4</span>Contact</h2>
       <p>You can find me on LinkedIn!</p>
       <a class="button" href="https://www.linkedin.com/in/zixuan-tng" target="_blank" rel="noopener">Connect on LinkedIn</a>
     </section>
@@ -375,5 +460,20 @@
       <span>Zi Xuan, Ngee Ann Polytechnic</span>
     </footer>
   </div>
+
+  <script>
+    (function () {
+      var lines = ["Meow!", "Purr...", "More fish!", "Mrrp?", "Nyan!", "Nice pets!"];
+      var count = 0;
+      var cat = document.getElementById("cat");
+      var bubble = document.getElementById("bubble");
+      var fish = document.getElementById("fish");
+      cat.addEventListener("click", function () {
+        count += 1;
+        fish.textContent = count;
+        bubble.textContent = lines[count % lines.length];
+      });
+    })();
+  </script>
 </body>
 </html>
