@@ -23,10 +23,7 @@
 
     * { box-sizing: border-box; }
     [hidden] { display: none !important; }
-    html {
-      scroll-behavior: smooth;
-      scroll-padding-top: 110px;
-    }
+    html { scroll-behavior: smooth; }
 
     body {
       margin: 0;
@@ -54,9 +51,6 @@
 
     /* HUD */
     header.bar {
-      position: sticky;
-      top: 12px;
-      z-index: 100;
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
@@ -72,11 +66,103 @@
     }
     .hud-name { display: flex; align-items: center; gap: 10px; }
     .lives { color: var(--fish); letter-spacing: 3px; }
-    header.bar nav { display: flex; flex-wrap: wrap; gap: 6px 18px; }
-    header.bar nav a { color: var(--ink); text-decoration: none; }
-    header.bar nav a::before { content: "> "; color: var(--moon); visibility: hidden; }
-    header.bar nav a:hover::before { visibility: visible; }
-    header.bar nav a:hover { color: var(--moon); }
+    .current-tab { color: var(--moon); }
+
+    /* Hamburger button */
+    .menu-btn {
+      position: fixed;
+      top: 12px;
+      left: 12px;
+      z-index: 150;
+      display: inline-flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 44px;
+      height: 44px;
+      padding: 0 9px;
+      background: var(--moon);
+      border: 4px solid var(--edge);
+      box-shadow: 3px 3px 0 var(--edge);
+      cursor: pointer;
+    }
+    .menu-btn span { display: block; height: 4px; background: var(--edge); }
+    .menu-btn:hover { background: var(--fish); }
+    .menu-btn:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--edge); }
+
+    /* Left side menu */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(15, 13, 38, 0.65);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+    }
+    .overlay.open { opacity: 1; pointer-events: auto; }
+
+    .drawer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      z-index: 300;
+      width: min(280px, 80vw);
+      padding: 20px 16px;
+      background: var(--panel);
+      border-right: 4px solid var(--edge);
+      box-shadow: 8px 0 0 var(--edge);
+      transform: translateX(-110%);
+      visibility: hidden;
+      transition: transform 0.25s ease, visibility 0.25s;
+      font-family: "Pixelify Sans", monospace;
+      overflow-y: auto;
+    }
+    .drawer.open { transform: translateX(0); visibility: visible; }
+    .drawer-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      font-size: 1.3rem;
+      font-weight: 700;
+    }
+    .close-btn {
+      width: 40px;
+      height: 40px;
+      background: var(--panel-2);
+      color: var(--ink);
+      border: 3px solid var(--edge);
+      font-family: inherit;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+    .close-btn:hover { background: var(--fish); color: var(--edge); }
+    .drawer-list { display: flex; flex-direction: column; gap: 10px; }
+    .tab-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      padding: 10px 12px;
+      background: var(--bg);
+      color: var(--ink);
+      border: 3px solid var(--edge);
+      font-family: inherit;
+      font-size: 1.1rem;
+      text-align: left;
+      cursor: pointer;
+    }
+    .tab-btn .lv {
+      padding: 0 8px;
+      background: var(--panel-2);
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+    .tab-btn:hover { background: var(--panel-2); }
+    .tab-btn[aria-selected="true"] { background: var(--moon); color: var(--edge); }
+    .tab-btn[aria-selected="true"] .lv { background: var(--edge); color: var(--moon); }
 
     /* Hero */
     .hero {
@@ -255,8 +341,11 @@
       font-family: "Pixelify Sans", monospace;
     }
 
+    @media (max-width: 900px) {
+      .wrap { padding-top: 68px; }
+    }
+
     @media (max-width: 600px) {
-      html { scroll-padding-top: 140px; }
       .hero { flex-direction: column-reverse; align-items: flex-start; padding: 32px 0; gap: 24px; }
       .portrait img { width: 130px; height: 130px; }
       section { padding: 20px 16px; }
@@ -266,19 +355,34 @@
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
       .cat .eye, .cat .tail { animation: none; }
+      .overlay, .drawer { transition: none; }
     }
   </style>
 </head>
 <body>
+  <div class="overlay" id="overlay"></div>
+
+  <aside class="drawer" id="drawer" aria-label="Menu" aria-hidden="true">
+    <div class="drawer-head">
+      <span>Menu</span>
+      <button class="close-btn" id="closeMenu" type="button" aria-label="Close menu">&times;</button>
+    </div>
+    <div class="drawer-list" role="tablist" aria-label="Portfolio tabs" aria-orientation="vertical">
+      <button class="tab-btn" type="button" role="tab" data-tab="about" aria-selected="true"><span class="lv">LV 1</span>About</button>
+      <button class="tab-btn" type="button" role="tab" data-tab="projects" aria-selected="false"><span class="lv">LV 2</span>Projects</button>
+      <button class="tab-btn" type="button" role="tab" data-tab="background" aria-selected="false"><span class="lv">LV 3</span>Background</button>
+      <button class="tab-btn" type="button" role="tab" data-tab="contact" aria-selected="false"><span class="lv">LV 4</span>Contact</button>
+    </div>
+  </aside>
+
+  <button class="menu-btn" id="openMenu" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="drawer">
+    <span></span><span></span><span></span>
+  </button>
+
   <div class="wrap">
     <header class="bar">
       <span class="hud-name">Zi Xuan <span class="lives" aria-hidden="true">&hearts;&hearts;&hearts;</span></span>
-      <nav aria-label="Main">
-        <a href="#about">About</a>
-        <a href="#projects">Projects</a>
-        <a href="#background">Background</a>
-        <a href="#contact">Contact</a>
-      </nav>
+      <span class="current-tab" id="currentTab" aria-live="polite">About</span>
     </header>
 
     <div class="hero">
@@ -317,7 +421,7 @@
       </figure>
     </div>
 
-    <section id="about">
+    <section id="about" role="tabpanel">
       <h2><span class="lv">LV 1</span>About</h2>
       <p>I am graduating in 2027 with a Diploma in Electronic &amp; Computer Engineering from Ngee Ann Polytechnic, with a focus on embedded systems, software development and IoT.</p>
       <p>I enjoy applying what I learn to hands-on engineering projects. My experience includes C, C#, Python, Microcontrollers, Sensors and Cloud-connected Systems.</p>
@@ -328,7 +432,7 @@
       </ul>
     </section>
 
-    <section id="projects">
+    <section id="projects" role="tabpanel" hidden>
       <h2><span class="lv">LV 2</span>Projects</h2>
 
       <article class="project">
@@ -408,7 +512,7 @@
       </article>
     </section>
 
-    <section id="background">
+    <section id="background" role="tabpanel" hidden>
       <h2><span class="lv">LV 3</span>Education and Achievements</h2>
 
       <h3>Education</h3>
@@ -457,7 +561,7 @@
       </ul>
     </section>
 
-    <section id="contact">
+    <section id="contact" role="tabpanel" hidden>
       <h2><span class="lv">LV 4</span>Contact</h2>
       <p>You can find me on LinkedIn!</p>
       <a class="button" href="https://www.linkedin.com/in/zixuan-tng" target="_blank" rel="noopener">Connect on LinkedIn</a>
@@ -480,6 +584,64 @@
         fish.textContent = count;
         bubble.textContent = count === 67 ? "SIX SAYVEN!!!" : lines[count % lines.length];
       });
+    })();
+
+    /* Left side menu and tab switching */
+    (function () {
+      var drawer = document.getElementById("drawer");
+      var overlay = document.getElementById("overlay");
+      var openBtn = document.getElementById("openMenu");
+      var closeBtn = document.getElementById("closeMenu");
+      var label = document.getElementById("currentTab");
+      var tabs = Array.prototype.slice.call(document.querySelectorAll(".tab-btn"));
+      var panels = Array.prototype.slice.call(document.querySelectorAll("[role='tabpanel']"));
+      var names = { about: "About", projects: "Projects", background: "Background", contact: "Contact" };
+
+      function openMenu() {
+        drawer.classList.add("open");
+        overlay.classList.add("open");
+        drawer.setAttribute("aria-hidden", "false");
+        openBtn.setAttribute("aria-expanded", "true");
+        var active = drawer.querySelector("[aria-selected='true']");
+        if (active) active.focus();
+      }
+
+      function closeMenu() {
+        drawer.classList.remove("open");
+        overlay.classList.remove("open");
+        drawer.setAttribute("aria-hidden", "true");
+        openBtn.setAttribute("aria-expanded", "false");
+      }
+
+      function showTab(id, fromUser) {
+        if (!names[id]) id = "about";
+        panels.forEach(function (p) { p.hidden = p.id !== id; });
+        tabs.forEach(function (t) {
+          t.setAttribute("aria-selected", t.getAttribute("data-tab") === id ? "true" : "false");
+        });
+        label.textContent = names[id];
+        if (fromUser) {
+          history.replaceState(null, "", "#" + id);
+          document.querySelector(".hero").scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }
+
+      openBtn.addEventListener("click", openMenu);
+      closeBtn.addEventListener("click", function () { closeMenu(); openBtn.focus(); });
+      overlay.addEventListener("click", closeMenu);
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape" && drawer.classList.contains("open")) { closeMenu(); openBtn.focus(); }
+      });
+
+      tabs.forEach(function (t) {
+        t.addEventListener("click", function () {
+          showTab(t.getAttribute("data-tab"), true);
+          closeMenu();
+          openBtn.focus();
+        });
+      });
+
+      showTab(location.hash.replace("#", ""), false);
     })();
   </script>
 </body>
