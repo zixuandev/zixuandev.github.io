@@ -437,6 +437,18 @@
 
       <article class="project">
         <span class="status live">In progress</span>
+        <h3>Nine Lives Clicker</h3>
+        <p class="summary">A cat-themed clicker game that runs in the browser.</p>
+        <a class="button" href="https://ninelives-clicker.web.app/" target="_blank" rel="noopener">Play the Game</a>
+        <div class="gallery single">
+          <figure>
+            <img src="images/CatRoom.jpg" alt="The Cat Room in Nine Lives Clicker" onerror="this.closest('figure').hidden = true">
+            <figcaption>The Cat Room</figcaption>
+          </figure>
+        </div>
+      </article>
+
+      <article class="project">
         <h3>Mini Urban Farming Project</h3>
         <p class="summary">An indoor farming system that combines a Node-RED control dashboard with a Python computer vision application for monitoring plant leaves. I am currently debugging and improving both the control and vision components.</p>
         <ul>
@@ -447,6 +459,26 @@
           <figure>
             <img src="images/NodeREDPlantHealth.jpg" alt="Plant Health Camera page showing leaf detection and HSV sliders" onerror="this.closest('figure').hidden = true">
             <figcaption>Plant Health Camera with Leaf Detection and HSV Calibration</figcaption>
+          </figure>
+        </div>
+      </article>
+
+      <article class="project">
+        <h3>ICAM-520 Edge Vision</h3>
+        <p class="summary">An industrial AI camera designed to detect and read barcodes for automated identification and tracking. It uses computer vision and AI-based image processing to locate barcodes and extract their information through a user-friendly dashboard.</p>
+        <ul>
+          <li>Resolved camera preview and focus control issues, restoring the colour preview and correcting the reversed focus buttons.</li>
+          <li>Rectified intermittent LED activation by identifying and disabling the unnecessary automatic LED boost.</li>
+          <li>Redesigned the camera dashboard with an improved layout, camera status indicator and clearer visual elements for easier monitoring and demonstration.</li>
+          <li>Developed and trained a YOLOv8 barcode detection model using 82 annotated images to improve barcode localisation and detection accuracy.</li>
+          <li>Optimised barcode reading by implementing a detect-first, read-second approach, allowing ZBar to decode only detected barcode regions.</li>
+          <li>Implemented an adjustable barcode scanning region with dashboard controls for users to customise the scanning area.</li>
+          <li>Integrated autofocus functionality with Pause and Resume controls to reduce manual focus adjustments.</li>
+        </ul>
+        <div class="gallery single">
+          <figure>
+            <img src="images/iCAM-520.jpg" alt="ICAM-520 Edge Vision camera dashboard" onerror="this.closest('figure').hidden = true">
+            <figcaption>The ICAM-520 Camera Dashboard</figcaption>
           </figure>
         </div>
       </article>
